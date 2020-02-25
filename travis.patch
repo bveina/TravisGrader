@@ -1,0 +1,14 @@
+--- venv/lib/python3.6/site-packages/travispy/_helpers.py	2020-02-25 15:37:31.610892534 -0500
++++ ./_helpers.py	2020-02-25 15:46:35.174764000 -0500
+@@ -16,7 +16,10 @@
+     '''
+     status_code = response.status_code
+     try:
+-        contents = response.json()
++        if 'json' in response.headers['content-type']:
++          contents = response.json()
++        else:
++          contents = {'log':{'type':'Log', 'body':response.text}}
+     except:
+         error = response.text.strip()
+         if not error:
